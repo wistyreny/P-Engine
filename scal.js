@@ -1212,6 +1212,8 @@ function calc(el) {
         result.color = 'White';
         result.innerHTML = `${(f[index_f].power * 100).toFixed(1)}%, ${(f[index_f].power_range * f[index_f].power).toFixed(1)}y, ${(desvioByDegree(f[index_f].desvio, distance) / 0.2167).toFixed(2)}pb Real(${(f[index_f].desvio / 0.2167 * -1).toFixed(2)}pb), Smart(${smartDesvio(f[index_f].smartData)})`;
         document.getElementById('resultpb').value = (f[index_f].desvio / 0.2167 * -1).toFixed(2);
+        var item = (f[index_f].desvio / 0.2167 * -1).toFixed(2);
+        window.chrome.webview.postMessage(item);
 
     }else {
         result.color = 'darkRed'
