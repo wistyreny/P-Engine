@@ -1,0 +1,648 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>JaoMhee Cal</title>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js></script>
+    <style>
+        #display-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        #status-display {
+            position: absolute;
+            bottom: 100px;
+            right: 20px;
+            color: cyan;
+        }
+
+            #status-display ul {
+                list-style-type: none;
+            }
+
+        #stats {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+
+        div .dg {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .label0 {
+            grid-column: 1 / 2;
+            width: 75px;
+        }
+
+        .label {
+            grid-column: 1 / 2;
+        }
+
+        .input {
+            grid-column: 2 / 3;
+        }
+
+        .container-grid {
+            display: grid;
+            grid-template-columns: auto 120px auto;
+            grid-row-gap: 5px;
+            grid-column-gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .slope {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .r-wind {
+            display: grid;
+            grid-template-columns: 1fr
+        }
+
+        /* Style the buttons */
+        .btn-g0 {
+            outline: none;
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+            /* Style the active class (and buttons on mouse-over) */
+            .active0, .btn-g0:hover {
+                background-color: #666;
+                color: white;
+            }
+
+        /* Style the buttons */
+        .btn-g1 {
+            outline: none;
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+            /* Style the active class (and buttons on mouse-over) */
+            .active1, .btn-g1:hover {
+                background-color: #666;
+                color: white;
+            }
+
+        /* Style the buttons */
+        .btn-g2 {
+            outline: none;
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+            /* Style the active class (and buttons on mouse-over) */
+            .active2, .btn-g2:hover {
+                background-color: #666;
+                color: white;
+            }
+
+        /* Style the buttons */
+        .btn-g3 {
+            outline: none;
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+            /* Style the active class (and buttons on mouse-over) */
+            .active3, .btn-g3:hover {
+                background-color: #666;
+                color: white;
+            }
+
+        /* Style the buttons */
+        .btn-g4 {
+            outline: none;
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+            /* Style the active class (and buttons on mouse-over) */
+            .active4, .btn-g4:hover {
+                background-color: #666;
+                color: white;
+            }
+
+        /* Style the buttons */
+        .btn-g5 {
+            outline: none;
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+            /* Style the active class (and buttons on mouse-over) */
+            .active5, .btn-g5:hover {
+                background-color: #666;
+                color: white;
+            }
+
+        /* Style the buttons */
+        .btn-g6 {
+            outline: none;
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+            /* Style the active class (and buttons on mouse-over) */
+            .active6, .btn-g6:hover {
+                background-color: #666;
+                color: white;
+            }
+
+        /* Style the buttons */
+        .btn-g7 {
+            outline: none;
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+        /* Style the buttons */
+        .btn-g8 {
+            outline: none;
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+            /* Style the active class (and buttons on mouse-over) */
+            .active8, .btn-g8:hover {
+                background-color: #666;
+                color: white;
+            }
+
+        /* Style the buttons */
+        .btn-g9 {
+            outline: none;
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+        /* Style the buttons */
+        .btn-g10 {
+            outline: none;
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+        /* Style the active class (and buttons on mouse-over) */
+        .active7, .btn-g7:hover {
+            background-color: #666;
+            color: white;
+        }
+
+        .shot {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-gap: 5px;
+            padding: 1px;
+        }
+
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+            /* Style the buttons inside the tab */
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 10px 10px;
+                transition: 0.5s;
+                font-size: 16px;
+            }
+
+                /* Change background color of buttons on hover */
+                .tab button:hover {
+                    background-color: #fff;
+                }
+
+                /* Create an active/current tablink class */
+                .tab button.active {
+                    background-color: #000;
+                    color: #fff;
+                }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid Pink;
+            border-top: none;
+            -webkit-animation: fadeEffect 1s;
+            animation: fadeEffect 1s;
+        }
+
+        /* Fade in tabs */
+        @-webkit-keyframes fadeEffect {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeEffect {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Style the close button */
+        .topright {
+            float: right;
+            cursor: pointer;
+            font-size: 28px;
+        }
+
+            .topright:hover {
+                color: red;
+            }
+
+        .mr-0 {
+            margin-right: 0;
+        }
+
+        .ml-auto {
+            margin-left: auto;
+        }
+
+        .d-block {
+            display: block;
+        }
+
+        /* alert */
+
+        .buttona {
+            float: left;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background .5s;
+        }
+
+        #success {
+            color: #f0f0f0;
+        }
+
+        #fail {
+            color: #f0f0f0;
+        }
+
+        .notify {
+            position: absolute;
+            bottom: 0px;
+            width: 100%;
+            height: 0;
+            box-sizing: border-box;
+            color: black;
+            text-align: center;
+            background: #ADD495;
+            overflow: hidden;
+            transition: height 1s;
+        }
+
+        .notifail {
+            position: absolute;
+            bottom: 0px;
+            width: 100%;
+            height: 0;
+            box-sizing: border-box;
+            color: black;
+            text-align: center;
+            background: #F898A4;
+            overflow: hidden;
+            transition: height 1s;
+        }
+
+        #notifyType:before {
+            display: block;
+            margin-top: 15px;
+        }
+
+        #notifyTypefail:before {
+            display: block;
+            margin-top: 15px;
+        }
+
+        .activea {
+            height: 50px;
+        }
+
+        .success:before {
+            Content: "บันทึกข้อมูลการตั้งค่าเรียบร้อย ✔️";
+        }
+
+        .fail:before {
+            Content: "ยังไม่ได้เลือกทิศทางลม ❌";
+        }
+    </style>
+</head>
+
+<body style="background-color: Pink;">
+    <div id="display-container" style="display: flex; align-items: center; flex-direction: column;">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+
+            <div id="wedegt-config" style="display: flex; flex-direction: column; z-index: 10; padding: 10px">
+
+                <div class="tab" style="width:100%;height:40px;">
+                    <button class="tablinks" style="width:50%" onclick="openCity(event, 'Config')" id="defaultOpen">ตั้งค่า</button>
+                    <button class="tablinks" style="width:50%" onclick="openCity(event, 'Distance')">ระยะหลุม</button>
+                </div>
+
+                <div id="Config" class="tabcontent">
+                    <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+                    <div class="container-grid" style="padding-top: 10px;">
+                        <label class="label">จอ : </label>
+                        <select class="input" id="dis" onclick="calc(this);calc(this);pbreplace(this);">
+                            <option value="1">BIG</option>
+                            <option value="1.25">800x600 Small</option>
+                            <option value="1.5">1280x720 Small</option>
+                            <option value="1.875">1600x900 Small</option>
+                        </select>
+                        <label class="label" style="color:Blue">คูณเอียง : </label>
+                        <input class="input" style="color:Blue" value="3.78" id="x-slope" type="text" onkeyup="calc(this);calc(this);pbreplace(this);">
+                        <label class="label" style="color:Red;"> ก็อปลาย : </label>
+                        <select class="input" id="copyaim" onclick="calc(this);calc(this);pbreplace(this);">
+                            <option value="1">ไม่เอา -</option>
+                            <option value="2">เอาติด -</option>
+                        </select>
+                        <label class="label">Power :</label>
+                        <input class="input" id="power" type="text" onkeyup="checkdrive(this);calc(this);calc(this);pbreplace(this);">
+                        <label class="label">แหวน (y) :</label>
+                        <input class="input" id="auxpart_pwr" type="text" onkeyup="checkdrive(this);calc(this);calc(this);pbreplace(this);">
+                        <label class="label">Lolo (y) :</label>
+                        <input class="input" id="card_ps_pwr" type="text" onkeyup="checkdrive(this);calc(this);calc(this);pbreplace(this);">
+                        <label class="label">สปิน :</label>
+                        <input class="input" id="basesp" type="text" onkeyup="checkdrive(this);calc(this);calc(this);pbreplace(this);">
+                        <label class="label">เคิฟ :</label>
+                        <input class="input" id="basecv" type="text" onkeyup="checkdrive(this);calc(this);calc(this);pbreplace(this);">
+                        <label hidden class="label">Card Power :</label>
+                        <input hidden class="input" id="card_pwr" type="text" value="0" onkeyup="checkdrive(this);calc(this);calc(this);pbreplace(this);">
+                        <label hidden class="label">Mascot Power :</label>
+                        <input hidden class="input" id="mascot_pwr" type="text" value="0" onkeyup="checkdrive(this);calc(this);calc(this);pbreplace(this);">
+
+                    </div>
+                </div>
+
+                <div id="Distance" class="tabcontent">
+                    <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <div>
+                            <div class="container-grid" style="padding-top: 10px">
+                                <label class="label" style="font-size:12px">⭐</label>
+                                <select class="input" id="course">
+                                    <option value="0">---------⭐---------</option>
+                                    <option value="1">Blue Lagoon</option>
+                                    <option value="2">Ice Spa</option>
+                                    <option value="3">Lost Seaway</option>
+                                    <option value="4">Pink Wind</option>
+                                    <option value="5">West Wiz</option>
+                                    <option value="0">-------⭐⭐-------</option>
+                                    <option value="6">Abbot Mine</option>
+                                    <option value="7">Eastern Valley</option>
+                                    <option value="8">Ice Cannon</option>
+                                    <option value="9">Shining Sand</option>
+                                    <option value="10">Wiz City</option>
+                                    <option value="0">----⭐⭐⭐----</option>
+                                    <option value="11">Blue Moon</option>
+                                    <option value="12">Blue Water</option>
+                                    <option value="13">Sepia Wind</option>
+                                    <option value="14">White Wiz</option>
+                                    <option value="0">--⭐⭐⭐⭐--</option>
+                                    <option value="15">Ice Inferno</option>
+                                    <option value="16">Silvia Cannon</option>
+                                    <option value="17">Wiz Wiz</option>
+                                    <option value="0">-⭐⭐⭐⭐⭐-</option>
+                                    <option value="18">Deep Inferno</option>
+                                    <option value="19">Wind Hill</option>
+                                </select>
+                                <label class="label" style="font-size:12px"> 🎯 </label>
+                                <input class="input" id="coursehole" type="text" value="2">
+                                <button id="showhole" onClick="getpin(this)"><text style="font-size:10px">✔️</text></button>
+                                <label class="label" style="font-size:12px">🚩</label>
+                                <input class="input" id="pin1" type="text">
+                                <button onClick="pin_1(this)"><text style="font-size:10px">✔️</text></button>
+                                <label class="label" style="font-size:12px">🚩🚩</label>
+                                <input class="input" id="pin2" type="text">
+                                <button onClick="pin_2(this)"><text style="font-size:10px">✔️</text></button>
+                                <label class="label" style="font-size:12px">🚩🚩🚩</label>
+                                <input class="input" id="pin3" type="text">
+                                <button onClick="pin_3(this)"><text style="font-size:10px">✔️</text></button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div id="Calcu" class="container-grid" style="padding-top: 10px">
+                    <label class="label">เลือกไม้ : </label>
+                    <select class="input" id="club" onclick="calc(this);calc(this);pbreplace(this);">
+                        <option selected value="0">1W</option>
+                        <option value="1">2W</option>
+                        <option value="2">3W</option>
+                        <option value="3">2I</option>
+                        <option value="4">3I</option>
+                        <option value="5">4I</option>
+                        <option value="6">5I</option>
+                        <option value="7">6I</option>
+                        <option value="8">7I</option>
+                        <option value="9">8I</option>
+                        <option value="10">9I</option>
+                        <option value="11">PW</option>
+                        <option value="12">SW</option>
+                    </select>
+
+
+
+                    <div class="slope">
+                        <input id="pd" type="checkbox" onClick="pd(this);checkdrive(this);calc(this);calc(this);pbreplace(this);"><label for="PD">PD</label>
+                    </div>
+
+                    <label class="label">เลือกท่าตี : </label>
+                    <select class="input" type="text" id="shot">
+                        <option selected value="0" style="background-color:Yellow;color:Black">Dunk</option>
+                        <option value="1" style="background-color:Red;color:White">Tomahawk</option>
+                        <option value="2" style="background-color:Blue;color:White">Spike</option>
+                        <option value="3" style="background-color:Green;color:White">Cobra</option>
+                    </select>
+                    <label class="label">จำนวนเกจ : </label>
+                    <select class="input" type="text" id="power_shot">
+                        <option selected value="0">Normal Shot</option>
+                        <option value="1">1 Power Shot</option>
+                        <option value="2">2 Power Shot</option>
+                        <option value="3">15y Power Shot</option>
+                    </select>
+
+                    <label class="label">พื้น (%) : </label>
+                    <input class="input" id="ground" type="text" onkeyup="calc(this);calc(this);pbreplace(this);" style="background-color:Black;color:White" value="100">
+
+                    <div id="btng4" class="slope">
+                        <button class="btn-g4" style="width:30px;" id="g-95" onClick="g95(this);calc(this);calc(this);pbreplace(this);"><text style="font-size:11px"><b>95</b></text></button>
+                        <button class="btn-g4" style="width:30px;" id="g-85" onClick="g85(this);calc(this);calc(this);pbreplace(this);"><text style="font-size:11px"><b>85</b></text></button>
+                        <button hidden id="dat-g4" class="btn-g4"></button>
+                    </div>
+
+                    <label class="label">ระยะ : </label>
+                    <input class="input" id="distance" type="text" onkeyup="calc(this);calc(this);pbreplace(this);">
+                    <label class="label">สูง/ต่ำ : </label>
+                    <input class="input" id="height" type="text" onkeyup="calc(this);calc(this);pbreplace(this);">
+
+                    <label class="label">แรงลม : </label>
+                    <input class="input" id="wind" type="text" style="height: 30px;font-size:20px;font-weight: bold;color:red" onkeyup="calc(this);calc(this);pbreplace(this);">
+
+                    <div id="r-wind" class="r-wind">
+                        <input id="degree" type="text" style="width:63px;font-size:18px;font-weight: bold;color:red" onkeyup="calc(this);calc(this);pbreplace(this);">
+                    </div>
+
+                    <label class="label">องศา : </label>
+                    <input class="input" id="degree90" type="text" style="font-size:20px;font-weight: bold;color:red" onkeyup="calc(this);calc(this);pbreplace(this);">
+
+                    <div id="btng5" class="slope">
+                        <button class="btn-g5" style="width:30px;" onClick="anglecalc1(this);calc(this);calc(this);pbreplace(this);"><text style="font-size:10px"><b>🡼</b></text></button>
+                        <button class="btn-g5" style="width:30px;" onClick="anglecalc4(this);calc(this);calc(this);pbreplace(this);"><text style="font-size:10px"><b>🡽</b></text></button>
+                        <button class="btn-g5" style="width:30px;" onClick="anglecalc2(this);calc(this);calc(this);pbreplace(this);"><text style="font-size:10px"><b>🡿</b></text></button>
+                        <button class="btn-g5" style="width:30px;" onClick="anglecalc3(this);calc(this);calc(this);pbreplace(this);"><text style="font-size:10px"><b>🡾</b></text></button>
+                        <button hidden id="dat-g5" class="btn-g5"></button>
+                    </div>
+
+                    <label class="label">สปิน : </label>
+                    <input class="input" id="spin" type="text" style="background-color:#06A7F8;color:White" value="0.00">
+
+                    <div class="slope">
+                        <button class="btn-g9" style="width:30px;" onClick="sp11(this);calc(this);calc(this);pbreplace(this);"><text style="color:#06A7F8;font-size:11px"><b>11</b></text></button>
+                        <button class="btn-g9" style="width:30px;" onClick="sp30(this);calc(this);calc(this);pbreplace(this);"><text style="color:#06A7F8;font-size:11px"><b>30</b></text></button>
+                    </div>
+
+                    <label class="label">เคิฟ : </label>
+                    <input class="input" id="curve" type="text" style="background-color:Violet;color:Black" value="0.00">
+
+                    <div class="slope">
+                        <button class="btn-g10" style="width:30px;" onClick="curveL(this);calc(this);calc(this);pbreplace(this);"><text style="color:Violet;font-size:11px"><b>CL</b></text></button>
+                        <button class="btn-g10" style="width:30px;" onClick="curveR(this);calc(this);calc(this);pbreplace(this);"><text style="color:Violet;font-size:11px"><b>CR</b></text></button>
+                    </div>
+
+                    <label class="label" style="color:Blue">PX รวม : </label>
+                    <input class="input" style="color:Blue" id="px" type="text" onkeyup="getslope(this);">
+
+                    <div id="r-slope" class="r-wind">
+                        <input id="slopex" type="text" style="width:63px;background-color:Black;color:White" disabled>
+                    </div>
+
+                    <label class="label" style="color:Blue">DG.เอียง : </label>
+                    <input class="input" style="color:Blue" id="align-degree" type="text">
+
+                    <div id="btng7" class="slope">
+                        <button class="btn-g7" style="width:30px;" id="CalSlopexP" onClick="CalDGSlopeP(this);"><text style="font-size:10px"><b>➖</b></text></button>
+                        <button class="btn-g7" style="width:30px;" id="CalSlopexM" onClick="CalDGSlopeM(this);"><text style="font-size:10px"><b>➕</b></text></button>
+                        <button hidden id="dat-g7" class="btn-g7"></button>
+                    </div>
+
+                    <label hidden class="label" style="color:Blue">Slope : </label>
+                    <input hidden class="input" style="color:Blue" id="slope_real" type="text">
+
+                    <label class="label" style="color:Blue">เอียง : </label>
+                    <input class="input" style="color:Blue" id="slope_break" type="text" onkeyup="calc(this);calc(this);pbreplace(this);">
+
+                    <div id="btng3" class="slope">
+                        <button class="btn-g3" style="width:30px;" id="slope-side-l" value="-1" title="Left up" onClick="calcMycellaL(this);calc(this);calc(this);pbreplace(this);"><text style="font-size:10px"><b>🢀</b></text></button>
+                        <button class="btn-g3" style="width:30px;" id="slope-side-r" value="+1" title="Right up" onClick="calcMycellaR(this);calc(this);calc(this);pbreplace(this);"><text style="font-size:10px"><b>🢂</b></text></button>
+                        <button hidden id="dat-g3" class="btn-g3"></button>
+                    </div>
+
+                    <label class="label" style="color:red">บัคไม้ : </label>
+                    <input class="input" style="color:Blue" id="bug" type="text" onkeyup="calc(this);calc(this);pbreplace(this);">
+
+                    <div id="btng8" class="slope">
+                        <button class="btn-g8" style="width:30px;" id="bugl" value="0" onClick="BugL(this);calc(this);calc(this);pbreplace(this);"><text style="font-size:10px"><b>❌</b></text></button>
+                        <button class="btn-g8" style="width:30px;" id="bugr" value="-1" onClick="BugR(this);calc(this);calc(this);pbreplace(this);"><text style="font-size:10px"><b>➕</b></text></button>
+                        <button hidden id="dat-g8" class="btn-g8"></button>
+                    </div>
+
+                    <label hidden class="label" style="color:red">Cal Bug : </label>
+                    <input hidden class="input" style="color:Blue" id="cal_bug" type="text">
+
+                    <label class="label">หาร :</label>
+                    <input class="input" id="aim" value="4.0" type="text" onkeyup="calc(this);calc(this);pbreplace(this);">
+
+                    <div id="btng6" class="slope">
+                        <button class="btn-g6" style="width:30px;" id="aim-475" onClick="aim475(this);calc(this);calc(this);pbreplace(this);"><text style="font-size:12px"><b>ws</b></text></button>
+                        <button class="btn-g6" style="width:30px;" id="aim-8" onClick="aim8(this);calc(this);calc(this);pbreplace(this);"><text style="font-size:12px"><b>8</b></text></button>
+                        <button hidden id="dat-g6" class="btn-g6"></button>
+                    </div>
+
+                    <label class="label">เศษสปิน : </label>
+                    <input class="input" id="spincut" value="1.0" onclick="calc(this);calc(this);pbreplace(this);">
+
+                    <button style="width: 63px;" onClick="resetclear(this);"><text style="color:Red"><b>Clear</b></text></button>
+                    <label class="label">ปรับสปิน :</label>
+                    <input class="input" id="auto-cut" value="1" onclick="calc(this);calc(this);pbreplace(this);">
+
+                    <button style="width: 63px;" id="pressme" onClick="calc(this);pbreplace(this);"><text style="color:Green"><b>C DG</b></text></button>
+                    <button hidden class="label" id="btn_dis" onClick="calc(this);calc(this);pbreplace(this);">Button</button>
+                    <button hidden class="label" id="btn_degree" onClick="culcdg(this);calc(this);calc(this);pbreplace(this);">Button</button>
+                    <button hidden class="label" id="btn_px" onClick="culcpx(this);getslope(this);calc(this);calc(this);pbreplace(this);">Button</button>
+                    <button hidden class="buttona" id="fail">Button</button>
+                </div>
+            </div>
+
+            <span>
+                <label id="result"></label><br>
+            </span>
+
+            <div id="r-result" class="container-grid" style="padding-right:10px">
+                <label class="label" style="color:DarkRed;">แรงตี (%) : </label>
+                <input id="r-power" type="text" style="color:DarkRed;font-weight:bold;font-size:18px;width: 140px;" disabled>
+                <label class="label" style="color:Green">ลาย (AIM) : </label>
+                <input id="r-aim" type="text" style="color:Green;font-weight:bold;font-size:18px;width: 140px;" disabled>
+                <label class="label" style="color:Blue">คาลิปเปอร์ : </label>
+                <input id="r-caliper" type="text" style="color:Blue;font-weight:bold;font-size:18px;width: 140px;" disabled>
+                <label class="label" style="color:Black">สปิน : </label>
+                <input id="r-spin" type="text" style="color:Black;font-weight:bold;font-size:18px;width: 140px;" disabled>
+                <label class="label" style="color:Black">เคิฟ : </label>
+                <input id="r-curve" type="text" style="color:Black;font-weight:bold;font-size:18px;width: 140px;" disabled>
+                <label hidden class="label" style="color:Red">คลาดเคลื่อน : </label>
+                <input hidden id="r-err" type="text" style="color:Red;font-weight:bold;font-size:18px;width: 140px;" disabled>
+                <label hidden class="label" style="color:Red">zoompb : </label>
+                <input hidden id="zoompb" type="text" style="color:Red;font-weight:bold;font-size:18px;width: 140px;" disabled>
+                <label hidden class="label" style="color:Red">Copypb : </label>
+                <input hidden id="pbreplace" type="text" style="color:Red;font-weight:bold;font-size:18px;width: 140px;" disabled>
+            </div>
+        </div>
+
+        <!--window.chrome.webview.postMessage(JSON.stringify({ value8: r-power, value9: r-aim,}))-->
+
+        <div class="notify"><span id="notifyType"></span></div>
+
+
+    </div>
+
+    <script src="smart_calculator.js"></script>
+    <script src="holemarco.js"></script>
+    <script src="keyenter.js"></script>
+    <script src="keydelete.js"></script>
+    <script src="keyup.js"></script>
+    <script src="slopex.js"></script>
+    <script src="alert.js"></script>
+</body>
+
+</html>
